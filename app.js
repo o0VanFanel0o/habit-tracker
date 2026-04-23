@@ -14,22 +14,23 @@ form.addEventListener("submit", (e) => {
     const id = Date.now()
     const name = habitName.value.trim();
     const category = habitCategory.value;
-    const time = habitTime.value.trim();
+    const time = Number(habitTime.value.trim());
     const type = habitType.value;
-    if (!name || !category || isNaN(time) || Number(time) <= 0 || !type) {
+    if (!name || !category || isNaN(time) || time <= 0 || !type) {
         alert("Por favor, ingresa un hábito, categoría, tiempo y tipo válidos.");
         return;
     }
     const habit = { 
         id,
-        name, 
-        category, 
+        name,
+        category,
         time,
-        type 
+        type
     };
     habits.push(habit);
     localStorage.setItem("habits", JSON.stringify(habits));
     renderHabits();
+    updateSummary();
     form.reset();
 });
 const renderHabits = () => {
@@ -39,6 +40,7 @@ const renderHabits = () => {
         li.innerHTML = `${habit.name} - ${habit.category} - ${habit.time} min - ${habit.type}
         <button data-id="${habit.id}">❌</button>`;
         list.appendChild(li);
+        updateSummary();
     });
 }
 list.addEventListener("click", (e) => {
@@ -49,6 +51,7 @@ list.addEventListener("click", (e) => {
             habits.splice(index, 1);
             localStorage.setItem("habits", JSON.stringify(habits));
             renderHabits();
+            updateSummary();
         }   
     }
 });
@@ -59,3 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
         renderHabits();
     }
 });
+const updateSummary = () => {
+    const goodTime = habits
+        .filter(h => h.type === "bueno")
+        .reduce((sum, h) => sum + Number(h.time), 0);
+    const badTime = habits
+        .filter(h => h.type === "malo")
+        .reduce((sum, h) => sum + Number(h.time), 0);
+    summary.textContent = `Tiempo total en hábitos buenos: ${goodTime} min | Tiempo total en hábitos malos: ${badTime} min`;
+};
