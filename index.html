@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section class="left-section">
+            <form id="habits-form">
+                <input type="text" id="habit-name" placeholder="Hábito a desarrollar">
+                <select name="category" id="habit-category">
+                    <option value="">Selecciona una categoría</option>   
+                    <option value="salud">Salud</option>
+                    <option value="estudio">Estudio</option>
+                    <option value="trabajo">Trabajo</option>
+                    <option value="red-social">Redes Sociales</option>
+                    <option value="distracciones">Distracciones</option>
+                    <option value="hobbies">Hobbies</option>
+                </select>
+                <input type="number" id="habit-time" placeholder="Duración (minutos)">
+                <select name="type" id="habit-type">
+                    <option value="bueno">Bueno</option>
+                    <option value="malo">Malo</option>
+                </select>
+                <button type="submit">Agregar Hábito</button>
+            </form>
+            <ul id="habits-list"></ul>
+        </section>
+        <section class="right-section">
+
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
