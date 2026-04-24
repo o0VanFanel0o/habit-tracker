@@ -27,11 +27,20 @@
                 </select>
                 <button type="submit">Agregar Hábito</button>
             </form>
+            <form id="non-negotiables-form">
+                <input type="text" id="nn-imput" placeholder="Habito diario">
+                <button id="check-button">Añadir</button>
+            </form>
             <ul id="habits-list"></ul>
         </section>
         <section class="right-section">
             <div id="summary"></div>
             <canvas id="habits-chart" width="300" height="300"></canvas>
+            <div id="non-negotiables-panel">
+                <h3>Hábitos No Negociables</h3>
+                <ul id="non-negotiables-list"></ul>
+                <div id="nn-in-progress"></div>
+            </div>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -5,9 +5,53 @@ const habitTime = document.querySelector("#habit-time");
 const habitType = document.querySelector("#habit-type");
 const list = document.querySelector("#habits-list");
 const summary = document.querySelector("#summary");
+const nonNegotiableForm = document.querySelector("#non-negotiables-form");
+const nonNegotiableInput = document.querySelector("#nn-input");
+const nonNegotiableList = document.querySelector("#non-negotiables-list");
 
 const habits = [];
+const nonNegotiables = [];
 let chart = null;
+
+nonNegotiableForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const id = Date.now()
+    const name = nonNegotiableInput.value.trim();
+    if (!name) {
+        alert("Por favor, ingresa un hábito no negociable válido.");
+        return;
+    }
+    const nnHabits = { 
+        id,
+        name,
+        completed: false
+    };
+    nonNegotiables.push(nnHabits);
+    localStorage.setItem("nonNegotiables", JSON.stringify(nonNegotiables));
+    nonNegotiableInput.value = "";
+    renderNonNegotiables();
+    nonNegotiableForm.reset();
+});
+const renderNonNegotiables = () => {
+    nonNegotiableList.innerHTML = "";
+    nonNegotiables.forEach((nn) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${nn.name} <input type="checkbox" data-id="${nn.id}" ${nn.completed ? "checked" : ""}>`;
+        nonNegotiableList.appendChild(li);
+
+    });
+}
+nonNegotiableList.addEventListener("change", (e) => {
+    if (e.target.tagName === "INPUT") {
+        const id = Number(e.target.dataset.id);
+        const index = nonNegotiables.findIndex(nn => nn.id === id);
+        if (index !== -1) {
+            nonNegotiables[index].completed = e.target.checked;
+            localStorage.setItem("nonNegotiables", JSON.stringify(nonNegotiables));
+            renderNonNegotiables();
+        } 
+    }
+});
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -64,6 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
         habits.push(...JSON.parse(data));
         renderHabits();
         updateChart();
+    }
+    const savedNN = localStorage.getItem("nonNegotiables");
+    if (savedNN) {
+        nonNegotiables.push(...JSON.parse(savedNN));
+        renderNonNegotiables();
     }
 });
 const updateSummary = () => {
