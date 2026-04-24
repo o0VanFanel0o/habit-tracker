@@ -9,7 +9,6 @@ const summary = document.querySelector("#summary");
 const habits = [];
 let chart = null;
 
-console.log("hola")
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const id = Date.now()
@@ -87,7 +86,6 @@ const updateChart = () => {
     }, {});
     const labels = Object.keys(grupedHabits);
     const data = Object.values(grupedHabits);
-    if (labels.length === 0) return;
     const ctx = document.querySelector("#habits-chart").getContext("2d");
     if (chart) {
         chart.destroy()
@@ -102,5 +100,4 @@ const updateChart = () => {
             }]
         }
     })
-    console.log(labels,data);
 }
