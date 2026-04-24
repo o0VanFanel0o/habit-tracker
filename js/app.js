@@ -1,3 +1,14 @@
+import {
+    saveHabits,
+    loadHabits,
+    saveNonNegotiables,
+    loadNonNegotiables
+} from "./storage.js";
+
+
+
+
+
 const form = document.querySelector("#habits-form");
 const habitName = document.querySelector("#habit-name");
 const habitCategory = document.querySelector("#habit-category");
@@ -28,7 +39,7 @@ nonNegotiableForm.addEventListener("submit", (e) => {
         completed: false
     };
     nonNegotiables.push(nnHabits);
-    localStorage.setItem("nonNegotiables", JSON.stringify(nonNegotiables));
+    saveNonNegotiables(nonNegotiables);
     nonNegotiableInput.value = "";
     renderNonNegotiables();
     nonNegotiableForm.reset();
@@ -48,7 +59,7 @@ nonNegotiableList.addEventListener("change", (e) => {
         const index = nonNegotiables.findIndex(nn => nn.id === id);
         if (index !== -1) {
             nonNegotiables[index].completed = e.target.checked;
-            localStorage.setItem("nonNegotiables", JSON.stringify(nonNegotiables));
+            saveNonNegotiables(nonNegotiables);
             renderNonNegotiables();
         } 
     }
@@ -73,7 +84,7 @@ form.addEventListener("submit", (e) => {
         type
     };
     habits.push(habit);
-    localStorage.setItem("habits", JSON.stringify(habits));
+    saveHabits(habits);
     renderHabits();
     updateSummary();
     updateChart();
@@ -96,7 +107,7 @@ list.addEventListener("click", (e) => {
         const index = habits.findIndex(habit => habit.id === id);
         if (index !== -1) {
             habits.splice(index, 1);
-            localStorage.setItem("habits", JSON.stringify(habits));
+            saveHabits(habits);
             renderHabits();
             updateSummary();
             updateChart();
@@ -104,17 +115,10 @@ list.addEventListener("click", (e) => {
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
-    const data = localStorage.getItem("habits");
-    if (data) {
-        habits.push(...JSON.parse(data));
-        renderHabits();
-        updateChart();
-    }
-    const savedNN = localStorage.getItem("nonNegotiables");
-    if (savedNN) {
-        nonNegotiables.push(...JSON.parse(savedNN));
-        renderNonNegotiables();
-    }
+    habits.push(...loadHabits());
+    nonNegotiables.push(...loadNonNegotiables());
+    renderHabits();
+    renderNonNegotiables();
 });
 const updateSummary = () => {
     const goodTime = habits
