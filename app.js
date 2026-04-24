@@ -8,6 +8,7 @@ const summary = document.querySelector("#summary");
 const nonNegotiableForm = document.querySelector("#non-negotiables-form");
 const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
+const nnInProgress = document.querySelector("#nn-in-progress");
 
 const habits = [];
 const nonNegotiables = [];
@@ -38,7 +39,7 @@ const renderNonNegotiables = () => {
         const li = document.createElement("li");
         li.innerHTML = `${nn.name} <input type="checkbox" data-id="${nn.id}" ${nn.completed ? "checked" : ""}>`;
         nonNegotiableList.appendChild(li);
-
+        updateNNProgress();
     });
 }
 nonNegotiableList.addEventListener("change", (e) => {
@@ -149,4 +150,14 @@ const updateChart = () => {
             }]
         }
     })
+}
+const updateNNProgress = () => {
+    const completed =
+        nonNegotiables.filter(nn => nn.completed).length;
+
+    nnInProgress.textContent =
+        `${completed} de ${nonNegotiables.length} completados`;
+    if (nonNegotiables.length > 0 && completed === nonNegotiables.length) {
+        nnInProgress.textContent += " - ¡Todos los hábitos no negociables completados!";
+    }
 }
