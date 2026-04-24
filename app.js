@@ -7,8 +7,9 @@ const list = document.querySelector("#habits-list");
 const summary = document.querySelector("#summary");
 
 const habits = [];
+let chart = null;
 
-
+console.log("hola")
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const id = Date.now()
@@ -31,6 +32,7 @@ form.addEventListener("submit", (e) => {
     localStorage.setItem("habits", JSON.stringify(habits));
     renderHabits();
     updateSummary();
+    updateChart();
     form.reset();
 });
 const renderHabits = () => {
@@ -40,8 +42,9 @@ const renderHabits = () => {
         li.innerHTML = `${habit.name} - ${habit.category} - ${habit.time} min - ${habit.type}
         <button data-id="${habit.id}">❌</button>`;
         list.appendChild(li);
-        updateSummary();
     });
+    updateSummary();
+    updateChart();
 }
 list.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON"){
@@ -52,6 +55,7 @@ list.addEventListener("click", (e) => {
             localStorage.setItem("habits", JSON.stringify(habits));
             renderHabits();
             updateSummary();
+            updateChart();
         }   
     }
 });
@@ -60,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data) {
         habits.push(...JSON.parse(data));
         renderHabits();
+        updateChart();
     }
 });
 const updateSummary = () => {
@@ -71,3 +76,31 @@ const updateSummary = () => {
         .reduce((sum, h) => sum + Number(h.time), 0);
     summary.textContent = `Tiempo total en hábitos buenos: ${goodTime} min | Tiempo total en hábitos malos: ${badTime} min`;
 };
+const updateChart = () => {
+
+    const grupedHabits = habits.reduce((acc, habit) => {
+        if (!acc[habit.type]) {
+            acc[habit.type] = 0;
+        }
+        acc[habit.type] += Number(habit.time);
+        return acc;
+    }, {});
+    const labels = Object.keys(grupedHabits);
+    const data = Object.values(grupedHabits);
+    if (labels.length === 0) return;
+    const ctx = document.querySelector("#habits-chart").getContext("2d");
+    if (chart) {
+        chart.destroy()
+    }
+    chart = new Chart(ctx, {
+        type:"doughnut",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ["#4caf50", "#f44336"]
+            }]
+        }
+    })
+    console.log(labels,data);
+}
