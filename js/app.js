@@ -11,8 +11,10 @@ import {
 from "./ui.js";
 import {
     getHabitTotals
-} from "./claculations.js";
-
+} from "./calculations.js";
+import {
+    updateChart
+} from "./chart.js";
 
 
 const form = document.querySelector("#habits-form");
@@ -26,6 +28,7 @@ const nonNegotiableForm = document.querySelector("#non-negotiables-form");
 const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
 const nnInProgress = document.querySelector("#nn-in-progress");
+const ctx = document.querySelector("#habits-chart").getContext("2d");
 
 const habits = [];
 const nonNegotiables = [];
@@ -85,7 +88,7 @@ form.addEventListener("submit", (e) => {
     saveHabits(habits);
     renderHabits(list, habits);
     updateSummary();
-    updateChart();
+    chart = updateChart(ctx, habits, chart);
     form.reset();
 });
 
@@ -98,7 +101,7 @@ list.addEventListener("click", (e) => {
             saveHabits(habits);
             renderHabits(list, habits);
             updateSummary();
-            updateChart();
+            chart = updateChart(ctx, habits, chart);
         }   
     }
 });
@@ -107,34 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     nonNegotiables.push(...loadNonNegotiables());
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
+    chart = updateChart(ctx, habits, chart);
 });
 const updateSummary = () => {
     const { goodTime, badTime } = getHabitTotals(habits);
     summary.textContent = `Tiempo total en hábitos buenos: ${goodTime} min | Tiempo total en hábitos malos: ${badTime} min`;
 };
-const updateChart = () => {
-
-    const grupedHabits = habits.reduce((acc, habit) => {
-        if (!acc[habit.type]) {
-            acc[habit.type] = 0;
-        }
-        acc[habit.type] += Number(habit.time);
-        return acc;
-    }, {});
-    const labels = Object.keys(grupedHabits);
-    const data = Object.values(grupedHabits);
-    const ctx = document.querySelector("#habits-chart").getContext("2d");
-    if (chart) {
-        chart.destroy()
-    }
-    chart = new Chart(ctx, {
-        type:"doughnut",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: ["#4caf50", "#f44336"]
-            }]
-        }
-    })
-}
