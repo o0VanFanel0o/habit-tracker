@@ -34,10 +34,22 @@
             <ul id="habits-list"></ul>
         </section>
         <section class="right-section">
-            <div id="summary"></div>
-            <canvas id="habits-chart"></canvas>
-            <canvas id="positive-chart"></canvas>
-            <canvas id="negative-chart"></canvas>           
+            <div class="chart-card">
+                <h3>Buenos</h3>
+                <canvas id="positive-chart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Malos</h3>
+                <canvas id="negative-chart"></canvas>
+            </div>
+            <div class="summary-card">
+                <h3>Resumen</h3>
+                <div class="progress-container">
+                    <div id="progress-fill"></div>
+                </div>
+                <div id="summary"></div>
+                <canvas id="habits-chart"></canvas>    
+            </div>    
             <div id="non-negotiables-panel">
                 <h3>Hábitos No Negociables</h3>
                 <ul id="non-negotiables-list"></ul>

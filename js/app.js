@@ -30,13 +30,13 @@ const nonNegotiableForm = document.querySelector("#non-negotiables-form");
 const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
 const nnInProgress = document.querySelector("#nn-in-progress");
-const ctx = document.querySelector("#habits-chart").getContext("2d");
+//const ctx = document.querySelector("#habits-chart").getContext("2d");
 const goodctx = document.querySelector("#positive-chart").getContext("2d");
 const badctx = document.querySelector("#negative-chart").getContext("2d");
 
 const habits = [];
 const nonNegotiables = [];
-let chart = null;
+//let chart = null;
 let positiveChart = null;
 let negativeChart = null;
 
@@ -94,7 +94,7 @@ form.addEventListener("submit", (e) => {
     saveHabits(habits);
     renderHabits(list, habits);
     updateSummary();
-    chart = updateChart(ctx, habits, chart);
+    //chart = updateChart(ctx, habits, chart);
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
     form.reset();
@@ -109,7 +109,7 @@ list.addEventListener("click", (e) => {
             saveHabits(habits);
             renderHabits(list, habits);
             updateSummary();
-            chart = updateChart(ctx, habits, chart);
+            //chart = updateChart(ctx, habits, chart);
             positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
             negativeChart = updateNegativeChart(badctx, habits, negativeChart);
         }   
@@ -120,11 +120,23 @@ document.addEventListener("DOMContentLoaded", () => {
     nonNegotiables.push(...loadNonNegotiables());
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
-    chart = updateChart(ctx, habits, chart);
+    // chart = updateChart(ctx, habits, chart);
+    updateSummary();
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
 });
+
 const updateSummary = () => {
-    const { goodTime, badTime } = getHabitTotals(habits);
-    summary.textContent = `Tiempo total en hábitos buenos: ${goodTime} min | Tiempo total en hábitos malos: ${badTime} min`;
-};
+
+    const { goodTime, badTime } =
+    getHabitTotals(habits);
+
+    const total = goodTime + badTime;
+
+    const percentage =total === 0? 0: (goodTime / total) * 100;
+
+    summary.textContent =`Positivo ${Math.round(percentage)}% | ${goodTime} min vs ${badTime} min`;
+
+    document.querySelector("#progress-fill").style.width =`${percentage}%`;
+
+}
