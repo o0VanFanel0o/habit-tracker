@@ -13,7 +13,9 @@ import {
     getHabitTotals
 } from "./calculations.js";
 import {
-    updateChart
+    updateChart,
+    updateNegativeChart,
+    updatePositiveChart
 } from "./chart.js";
 
 
@@ -29,10 +31,14 @@ const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
 const nnInProgress = document.querySelector("#nn-in-progress");
 const ctx = document.querySelector("#habits-chart").getContext("2d");
+const goodctx = document.querySelector("#positive-chart").getContext("2d");
+const badctx = document.querySelector("#negative-chart").getContext("2d");
 
 const habits = [];
 const nonNegotiables = [];
 let chart = null;
+let positiveChart = null;
+let negativeChart = null;
 
 nonNegotiableForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -89,6 +95,8 @@ form.addEventListener("submit", (e) => {
     renderHabits(list, habits);
     updateSummary();
     chart = updateChart(ctx, habits, chart);
+    positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
+    negativeChart = updateNegativeChart(badctx, habits, negativeChart);
     form.reset();
 });
 
@@ -102,6 +110,8 @@ list.addEventListener("click", (e) => {
             renderHabits(list, habits);
             updateSummary();
             chart = updateChart(ctx, habits, chart);
+            positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
+            negativeChart = updateNegativeChart(badctx, habits, negativeChart);
         }   
     }
 });
@@ -111,6 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
     chart = updateChart(ctx, habits, chart);
+    positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
+    negativeChart = updateNegativeChart(badctx, habits, negativeChart);
 });
 const updateSummary = () => {
     const { goodTime, badTime } = getHabitTotals(habits);
