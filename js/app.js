@@ -6,9 +6,12 @@ import {
 } from "./storage.js";
 import {
     renderNonNegotiables,
+    renderHabits
 }
 from "./ui.js";
-
+import {
+    getHabitTotals
+} from "./claculations.js";
 
 
 
@@ -80,22 +83,12 @@ form.addEventListener("submit", (e) => {
     };
     habits.push(habit);
     saveHabits(habits);
-    renderHabits();
+    renderHabits(list, habits);
     updateSummary();
     updateChart();
     form.reset();
 });
-const renderHabits = () => {
-    list.innerHTML = "";
-    habits.forEach((habit) => {
-        const li = document.createElement("li");
-        li.innerHTML = `${habit.name} - ${habit.category} - ${habit.time} min - ${habit.type}
-        <button data-id="${habit.id}">❌</button>`;
-        list.appendChild(li);
-    });
-    updateSummary();
-    updateChart();
-}
+
 list.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON"){
         const id = Number(e.target.dataset.id);
@@ -103,7 +96,7 @@ list.addEventListener("click", (e) => {
         if (index !== -1) {
             habits.splice(index, 1);
             saveHabits(habits);
-            renderHabits();
+            renderHabits(list, habits);
             updateSummary();
             updateChart();
         }   
@@ -112,16 +105,11 @@ list.addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
     habits.push(...loadHabits());
     nonNegotiables.push(...loadNonNegotiables());
-    renderHabits();
+    renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
 });
 const updateSummary = () => {
-    const goodTime = habits
-        .filter(h => h.type === "bueno")
-        .reduce((sum, h) => sum + Number(h.time), 0);
-    const badTime = habits
-        .filter(h => h.type === "malo")
-        .reduce((sum, h) => sum + Number(h.time), 0);
+    const { goodTime, badTime } = getHabitTotals(habits);
     summary.textContent = `Tiempo total en hábitos buenos: ${goodTime} min | Tiempo total en hábitos malos: ${badTime} min`;
 };
 const updateChart = () => {
