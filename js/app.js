@@ -4,7 +4,10 @@ import {
     saveNonNegotiables,
     loadNonNegotiables
 } from "./storage.js";
-
+import {
+    renderNonNegotiables,
+}
+from "./ui.js";
 
 
 
@@ -41,18 +44,10 @@ nonNegotiableForm.addEventListener("submit", (e) => {
     nonNegotiables.push(nnHabits);
     saveNonNegotiables(nonNegotiables);
     nonNegotiableInput.value = "";
-    renderNonNegotiables();
+    renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
     nonNegotiableForm.reset();
 });
-const renderNonNegotiables = () => {
-    nonNegotiableList.innerHTML = "";
-    nonNegotiables.forEach((nn) => {
-        const li = document.createElement("li");
-        li.innerHTML = `${nn.name} <input type="checkbox" data-id="${nn.id}" ${nn.completed ? "checked" : ""}>`;
-        nonNegotiableList.appendChild(li);
-        updateNNProgress();
-    });
-}
+
 nonNegotiableList.addEventListener("change", (e) => {
     if (e.target.tagName === "INPUT") {
         const id = Number(e.target.dataset.id);
@@ -60,7 +55,7 @@ nonNegotiableList.addEventListener("change", (e) => {
         if (index !== -1) {
             nonNegotiables[index].completed = e.target.checked;
             saveNonNegotiables(nonNegotiables);
-            renderNonNegotiables();
+            renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
         } 
     }
 });
@@ -118,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     habits.push(...loadHabits());
     nonNegotiables.push(...loadNonNegotiables());
     renderHabits();
-    renderNonNegotiables();
+    renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
 });
 const updateSummary = () => {
     const goodTime = habits
@@ -154,14 +149,4 @@ const updateChart = () => {
             }]
         }
     })
-}
-const updateNNProgress = () => {
-    const completed =
-        nonNegotiables.filter(nn => nn.completed).length;
-
-    nnInProgress.textContent =
-        `${completed} de ${nonNegotiables.length} completados`;
-    if (nonNegotiables.length > 0 && completed === nonNegotiables.length) {
-        nnInProgress.textContent += " - ¡Todos los hábitos no negociables completados!";
-    }
 }
