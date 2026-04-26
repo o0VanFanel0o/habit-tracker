@@ -52,9 +52,6 @@ main {
     padding: 10px;
     border-radius: 5px;
 }
-#habit-category, #habit-type {
-    
-}
 #habit-name, #habit-time, #nn-input {
     border: 2px solid transparent;
     height: 2.5em;
@@ -66,9 +63,70 @@ main {
     transition: all 0.5s;
     font-size: small;
 }
-
 #habit-name:hover,#habit-name:focus, #habit-time:hover,#habit-time:focus, #nn-input:hover,#nn-input:focus {
     border: 2px solid #4a9dec;
     box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
     background-color: white;
+}
+.darkmatter-btn {
+    background: #000;
+    border: 1px solid #333;
+    color: #4a9dec;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+    width: 100%;
+}
+
+.darkmatter-btn:hover {
+    box-shadow: 0 0 15px #4a9dec;
+    color: #fff;
+}
+
+.darkmatter-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,rgba(181, 106, 255, 0.1) 0%,transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+    z-index: -1;
+}
+
+.darkmatter-btn:hover::before {
+    transform: scale(1.5);
+}
+
+.darkmatter-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #4a9dec;
+    opacity: 0;
+    z-index: -1;
+}
+
+.darkmatter-btn:hover .darkmatter-particle {
+    animation: darkmatter-float 2s forwards;
+}
+
+@keyframes darkmatter-float {
+    0% {
+        transform: translate(0, 0) scale(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1);
+        opacity: 0;
+    }
 }
