@@ -32,7 +32,7 @@
 }
 main {
     display: grid;
-    grid-template-columns: 2fr 2fr;
+    grid-template-columns: 1fr 3fr;
     gap: 2rem;
     padding: 2rem;
 }
@@ -41,8 +41,34 @@ main {
     flex-direction: column;
     gap: 2rem;
 }
-#habit-form {
-    display: flex;
-    gap: 1rem;  
-    flex-direction: column;
+#habits-form, #non-negotiables-form {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+#habit-name, #habit-time, #habit-frequency {
+    padding: 10px;
+    border-radius: 5px;
+}
+#habit-category, #habit-type {
+    
+}
+#habit-name, #habit-time, #nn-input {
+    border: 2px solid transparent;
+    height: 2.5em;
+    padding-left: 0.8em;
+    outline: none;
+    overflow: hidden;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    transition: all 0.5s;
+    font-size: small;
+}
+
+#habit-name:hover,#habit-name:focus, #habit-time:hover,#habit-time:focus, #nn-input:hover,#nn-input:focus {
+    border: 2px solid #4a9dec;
+    box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+    background-color: white;
 }
