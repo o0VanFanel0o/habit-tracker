@@ -101,7 +101,8 @@ form.addEventListener("submit", (e) => {
 });
 
 list.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON"){
+    const button = e.target.closest(".deleteButton");
+    if (button) {
         const id = Number(e.target.dataset.id);
         const index = habits.findIndex(habit => habit.id === id);
         if (index !== -1) {

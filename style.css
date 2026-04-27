@@ -69,7 +69,7 @@ main {
     background-color: white;
 }
 .darkmatter-btn {
-    background: #000;
+    background: #ffffff;
     border: 1px solid #333;
     color: #4a9dec;
     padding: 15px 40px;
@@ -83,7 +83,7 @@ main {
 
 .darkmatter-btn:hover {
     box-shadow: 0 0 15px #4a9dec;
-    color: #fff;
+    color: #3a7cb5;
 }
 
 .darkmatter-btn::before {
@@ -107,14 +107,14 @@ main {
     position: absolute;
     width: 3px;
     height: 3px;
-    border-radius: 50%;
+    border-radius: 25%;
     background: #4a9dec;
     opacity: 0;
     z-index: -1;
 }
 
 .darkmatter-btn:hover .darkmatter-particle {
-    animation: darkmatter-float 2s forwards;
+    animation: darkmatter-float 1s forwards;
 }
 
 @keyframes darkmatter-float {
@@ -129,4 +129,78 @@ main {
         transform: translate(var(--tx), var(--ty)) scale(1);
         opacity: 0;
     }
+}
+#habits-list{
+    list-style: none;
+    padding: 0;
+}
+#habits-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+#habits-list button {
+    cursor: pointer;
+}
+.deleteButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.deleteButton svg {
+    width: 44%;
+}
+.deleteButton:hover {
+    background-color: rgb(237, 56, 56);
+    overflow: visible;
+}
+.bin path {
+    transition: all 0.2s;
+}
+.deleteButton:hover .bin path {
+    fill: #fff;
+}
+.deleteButton:active {
+    transform: scale(0.98);
+}
+.tooltip {
+    --tooltip-color: rgb(41, 41, 41);
+    position: absolute;
+    top: -40px;
+    background-color: var(--tooltip-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 8px 12px;
+    font-weight: 600;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.5s;
+}
+.tooltip::before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    content: "";
+    background-color: var(--tooltip-color);
+    bottom: -10%;
+}
+.deleteButton:hover .tooltip {
+    opacity: 1;
 }
