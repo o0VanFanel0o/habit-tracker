@@ -10,12 +10,13 @@ import {
 }
 from "./ui.js";
 import {
-    getHabitTotals
+    getHabitTotals,
+    getTopHabits
 } from "./calculations.js";
 import {
-    updateChart,
     updateNegativeChart,
-    updatePositiveChart
+    updatePositiveChart,
+    updateTopHabitsChart
 } from "./chart.js";
 
 
@@ -33,12 +34,14 @@ const nnInProgress = document.querySelector("#nn-in-progress");
 //const ctx = document.querySelector("#habits-chart").getContext("2d");
 const goodctx = document.querySelector("#positive-chart").getContext("2d");
 const badctx = document.querySelector("#negative-chart").getContext("2d");
+const topHabitsCtx = document.querySelector("#top-habits-chart").getContext("2d");
 
 const habits = [];
 const nonNegotiables = [];
 //let chart = null;
 let positiveChart = null;
 let negativeChart = null;
+let topHabitsChart = null;
 
 nonNegotiableForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -97,6 +100,7 @@ form.addEventListener("submit", (e) => {
     //chart = updateChart(ctx, habits, chart);
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+    topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
     form.reset();
 });
 
@@ -113,6 +117,7 @@ list.addEventListener("click", (e) => {
             //chart = updateChart(ctx, habits, chart);
             positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
             negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+            topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
         }   
     }
 });
@@ -125,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSummary();
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+    topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
 });
 
 const updateSummary = () => {
