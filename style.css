@@ -204,3 +204,15 @@ main {
 .deleteButton:hover .tooltip {
     opacity: 1;
 }
+#non-negotiables-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+#non-negotiables-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}

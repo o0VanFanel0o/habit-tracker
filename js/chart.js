@@ -96,11 +96,19 @@ export const updateTopHabitsChart = (ctx, habits, currentChart) => {
                 label: "Tiempo en minutos",
                 data,
                 backgroundColor: [
-                    "#36a2eb",
-                    "#4bc0c0",
-                    "#ffcd56"
+                    "#4b944e",
+                    "#248f8f",
+                    "#be9a45"
                 ]
-            }]
+            }],
         },
+        options: {
+            indexAxis: "y",
+            plugins: {
+                lengend: {
+                    display: false
+                }
+            },
+        }
     });
 }
