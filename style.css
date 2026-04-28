@@ -223,7 +223,7 @@ main {
     gap: .5rem;
 }
 
-#day, #day-active {
+.day, .day-active {
     padding: 1rem 2rem;
     font-weight: 700;
     background: rgb(255, 255, 255);
@@ -239,7 +239,7 @@ main {
     box-shadow;
 }
 
-#day:hover, #day-active:hover {
+.day:hover, .day-active:hover {
     border-top: 2px solid blueviolet;
     border-left: 2px solid blueviolet;
     border-bottom: 2px solid rgb(238, 103, 238);

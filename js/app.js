@@ -35,6 +35,7 @@ const nnInProgress = document.querySelector("#nn-in-progress");
 const goodctx = document.querySelector("#positive-chart").getContext("2d");
 const badctx = document.querySelector("#negative-chart").getContext("2d");
 const topHabitsCtx = document.querySelector("#top-habits-chart").getContext("2d");
+const dayButtons = document.querySelectorAll(".day")
 
 const habits = [];
 const nonNegotiables = [];
@@ -42,6 +43,17 @@ const nonNegotiables = [];
 let positiveChart = null;
 let negativeChart = null;
 let topHabitsChart = null;
+let selecredDay = "L"
+
+dayButtons.forEach(button => {
+    button.addEventListener("click", () =>{
+    dayButtons.forEach(btn =>
+        btn.classList.remove("active"));
+    button.classList.add("active");
+    selecredDay = button.textContent;
+    console.log(selecredDay);
+    });
+});
 
 nonNegotiableForm.addEventListener("submit", (e) => {
     e.preventDefault();
