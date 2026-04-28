@@ -43,15 +43,15 @@ const nonNegotiables = [];
 let positiveChart = null;
 let negativeChart = null;
 let topHabitsChart = null;
-let selecredDay = "L"
+let selectedDay = "L"
 
 dayButtons.forEach(button => {
     button.addEventListener("click", () =>{
     dayButtons.forEach(btn =>
         btn.classList.remove("active"));
     button.classList.add("active");
-    selecredDay = button.textContent;
-    console.log(selecredDay);
+    selectedDay = button.textContent;
+    renderSelectedDay();
     });
 });
 
@@ -103,16 +103,12 @@ form.addEventListener("submit", (e) => {
         name,
         category,
         time,
-        type
+        type,
+        day : selectedDay
     };
     habits.push(habit);
     saveHabits(habits);
-    renderHabits(list, habits);
-    updateSummary();
-    //chart = updateChart(ctx, habits, chart);
-    positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
-    negativeChart = updateNegativeChart(badctx, habits, negativeChart);
-    topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
+    renderSelectedDay();
     form.reset();
 });
 
@@ -124,18 +120,14 @@ list.addEventListener("click", (e) => {
         if (index !== -1) {
             habits.splice(index, 1);
             saveHabits(habits);
-            renderHabits(list, habits);
-            updateSummary();
-            //chart = updateChart(ctx, habits, chart);
-            positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
-            negativeChart = updateNegativeChart(badctx, habits, negativeChart);
-            topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
+            renderSelectedDay();
         }   
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
     habits.push(...loadHabits());
     nonNegotiables.push(...loadNonNegotiables());
+    renderSelectedDay();
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
     // chart = updateChart(ctx, habits, chart);
@@ -145,17 +137,22 @@ document.addEventListener("DOMContentLoaded", () => {
     topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
 });
 
-const updateSummary = () => {
-
+const updateSummary = (habitData = habits) => {
     const { goodTime, badTime } =
-    getHabitTotals(habits);
-
+    getHabitTotals(habitData);
     const total = goodTime + badTime;
-
     const percentage =total === 0? 0: (goodTime / total) * 100;
-
     summary.textContent =`Positivo ${Math.round(percentage)}% | ${goodTime} min vs ${badTime} min`;
-
     document.querySelector("#progress-fill").style.width =`${percentage}%`;
-
+}
+const renderSelectedDay = () => {
+    const filterHabits = habits.filter(h => h.day === selectedDay);
+    renderHabits(list,filterHabits);
+    updateSummary(filterHabits);
+    positiveChart = updatePositiveChart(
+        goodctx, filterHabits, positiveChart);
+    negativeChart = updateNegativeChart(
+        badctx, filterHabits, negativeChart);
+    topHabitsChart = updateTopHabitsChart(
+        topHabitsCtx, filterHabits, topHabitsChart);
 }
