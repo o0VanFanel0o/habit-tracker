@@ -31,7 +31,6 @@ const nonNegotiableForm = document.querySelector("#non-negotiables-form");
 const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
 const nnInProgress = document.querySelector("#nn-in-progress");
-//const ctx = document.querySelector("#habits-chart").getContext("2d");
 const goodctx = document.querySelector("#positive-chart").getContext("2d");
 const badctx = document.querySelector("#negative-chart").getContext("2d");
 const topHabitsCtx = document.querySelector("#top-habits-chart").getContext("2d");
@@ -39,11 +38,10 @@ const dayButtons = document.querySelectorAll(".day")
 
 const habits = [];
 const nonNegotiables = [];
-//let chart = null;
 let positiveChart = null;
 let negativeChart = null;
 let topHabitsChart = null;
-let selectedDay = "L"
+let selectedDay = "Lunes"
 
 dayButtons.forEach(button => {
     button.addEventListener("click", () =>{
@@ -130,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSelectedDay();
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
-    // chart = updateChart(ctx, habits, chart);
     updateSummary();
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
