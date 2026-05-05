@@ -1,3 +1,7 @@
+* {
+    font-family: "DM Serif Display";
+    font-weight: 400;
+}
 .right-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -7,7 +11,11 @@
     flex: 1;
 }
 .summary-card {
+<<<<<<< HEAD
     grid-column:1 / span 2;
+=======
+    grid-column:1/ span 2;
+>>>>>>> ee0ceb748d475dd72d66f5adc2620a6c567ac688
     padding: 20px;
     border-radius: 20px;
     background-color: #f0f0f0;
@@ -29,4 +37,220 @@
     #4caf50,
     #8bc34a
     );
+}
+main {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+.left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+#habits-form, #non-negotiables-form {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+#habit-name, #habit-time, #habit-frequency {
+    padding: 10px;
+    border-radius: 5px;
+}
+#habit-name, #habit-time, #nn-input {
+    border: 2px solid transparent;
+    height: 2.5em;
+    padding-left: 0.8em;
+    outline: none;
+    overflow: hidden;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    transition: all 0.5s;
+    font-size: small;
+}
+#habit-name:hover,#habit-name:focus, #habit-time:hover,#habit-time:focus, #nn-input:hover,#nn-input:focus {
+    border: 2px solid #4a9dec;
+    box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+    background-color: white;
+}
+.darkmatter-btn {
+    background: #ffffff;
+    border: 1px solid #333;
+    color: #4a9dec;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+    width: 100%;
+}
+
+.darkmatter-btn:hover {
+    box-shadow: 0 0 15px #4a9dec;
+    color: #3a7cb5;
+}
+
+.darkmatter-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,rgba(181, 106, 255, 0.1) 0%,transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+    z-index: -1;
+}
+
+.darkmatter-btn:hover::before {
+    transform: scale(1.5);
+}
+
+.darkmatter-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 25%;
+    background: #4a9dec;
+    opacity: 0;
+    z-index: -1;
+}
+
+.darkmatter-btn:hover .darkmatter-particle {
+    animation: darkmatter-float 1s forwards;
+}
+
+@keyframes darkmatter-float {
+    0% {
+        transform: translate(0, 0) scale(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1);
+        opacity: 0;
+    }
+}
+#habits-list{
+    list-style: none;
+    padding: 0;
+}
+#habits-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+#habits-list button {
+    cursor: pointer;
+}
+.deleteButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.deleteButton svg {
+    width: 44%;
+}
+.deleteButton:hover {
+    background-color: rgb(237, 56, 56);
+    overflow: visible;
+}
+.bin path {
+    transition: all 0.2s;
+}
+.deleteButton:hover .bin path {
+    fill: #fff;
+}
+.deleteButton:active {
+    transform: scale(0.98);
+}
+.tooltip {
+    --tooltip-color: rgb(41, 41, 41);
+    position: absolute;
+    top: -40px;
+    background-color: var(--tooltip-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 8px 12px;
+    font-weight: 600;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.5s;
+}
+.tooltip::before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    content: "";
+    background-color: var(--tooltip-color);
+    bottom: -10%;
+}
+.deleteButton:hover .tooltip {
+    opacity: 1;
+}
+#non-negotiables-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+#non-negotiables-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.days-nav {
+    grid-column:1/ span 2;
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.day, .day-active {
+    padding: 1rem 2rem;
+    background: rgb(255, 255, 255);
+    color: blueviolet;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border-bottom: 2px solid blueviolet;
+    border-right: 2px solid blueviolet;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    transition-duration: 1s;
+    transition-property: border-top, border-left, border-bottom, border-right,
+    box-shadow;
+}
+
+.day:hover, .day-active:hover {
+    border-top: 2px solid blueviolet;
+    border-left: 2px solid blueviolet;
+    border-bottom: 2px solid rgb(238, 103, 238);
+    border-right: 2px solid rgb(238, 103, 238);
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px,
+    rgba(240, 46, 170, 0.2) 15px 15px;
 }

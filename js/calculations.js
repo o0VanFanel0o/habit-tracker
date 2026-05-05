@@ -29,3 +29,15 @@ export const getPositiveCategories = (habits) => {
         return acc;
     }, {});
 }
+export const getTopHabits = (habits) => {
+    const groped = habits.reduce((acc, habit) => {
+        if (!acc[habit.name]) {
+            acc[habit.name] = 0;
+        }
+        acc[habit.name] += Number(habit.time);
+        return acc;
+    }, {});
+    return Object.entries(groped)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+}

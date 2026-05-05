@@ -1,7 +1,8 @@
 import {
     getHabitTotals,
     getNegativeCategories,
-    getPositiveCategories
+    getPositiveCategories,
+    getTopHabits
 }
 from "./calculations.js";
 
@@ -78,5 +79,36 @@ export const updatePositiveChart = (ctx, habits, currentChart) => {
                 ]
             }]
         },
+    });
+}
+export const updateTopHabitsChart = (ctx, habits, currentChart) => {
+    const topHabits = getTopHabits(habits);
+    const labels = topHabits.map(h => h[0]);
+    const data = topHabits.map(h => h[1]);
+    if (currentChart) {
+        currentChart.destroy();
+    }
+    return new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [{
+                label: "Tiempo en minutos",
+                data,
+                backgroundColor: [
+                    "#4b944e",
+                    "#248f8f",
+                    "#be9a45"
+                ]
+            }],
+        },
+        options: {
+            indexAxis: "y",
+            plugins: {
+                lengend: {
+                    display: false
+                }
+            },
+        }
     });
 }

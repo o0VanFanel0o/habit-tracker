@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+<<<<<<< HEAD
+=======
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+>>>>>>> ee0ceb748d475dd72d66f5adc2620a6c567ac688
     <title>Habit Tracker</title>
 </head>
 <body>
@@ -25,15 +31,66 @@
                     <option value="bueno">Bueno</option>
                     <option value="malo">Malo</option>
                 </select>
-                <button type="submit">Agregar Hábito</button>
+
+                <div class="button-group" type="submit">
+                    <button class="darkmatter-btn" id="submit">Agregar Hábito
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: -20px; --ty: -15px; left: 25%; top: 25%;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: 15px; --ty: -20px; left: 75%; top: 25%; animation-delay: 0.2s;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: -15px; --ty: 15px; left: 25%; top: 75%; animation-delay: 0.4s;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: 20px; --ty: 15px; left: 75%; top: 75%; animation-delay: 0.6s;"
+                        ></div>
+                    </button>
+                </div>
+
             </form>
             <form id="non-negotiables-form">
-                <input type="text" id="nn-input" placeholder="Habito diario">
-                <button id="submit">Añadir</button>
+                <input type="text" id="nn-input" placeholder="Hábito No Negociable">
+
+                <div class="button-group" id="submit">
+                    <button class="darkmatter-btn" id="submit">Añadir
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: -20px; --ty: -15px; left: 25%; top: 25%;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: 15px; --ty: -20px; left: 75%; top: 25%; animation-delay: 0.2s;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: -15px; --ty: 15px; left: 25%; top: 75%; animation-delay: 0.4s;"
+                        ></div>
+                        <div
+                        class="darkmatter-particle"
+                        style="--tx: 20px; --ty: 15px; left: 75%; top: 75%; animation-delay: 0.6s;"
+                        ></div>
+                    </button>
+                </div>
+
             </form>
             <ul id="habits-list"></ul>
         </section>
         <section class="right-section">
+            <div class="days-nav">
+                <button class="day active">Lunes</button>
+                <button class="day">Martes</button>
+                <button class="day">Miercoles</button>
+                <button class="day">Jueves</button>
+                <button class="day">Viernes</button>
+                <button class="day">Sabado</button>
+                <button class="day">Domingo</button>
+            </div>
             <div class="chart-card">
                 <h3>Buenos</h3>
                 <canvas id="positive-chart"></canvas>
@@ -47,9 +104,12 @@
                 <div class="progress-container">
                     <div id="progress-fill"></div>
                 </div>
-                <div id="summary"></div>
-                <canvas id="habits-chart"></canvas>    
-            </div>    
+                <div id="summary"></div>  
+            </div>
+            <div class="chart-card">
+                <h3>Hábitos Más Frecuentes</h3>
+                <canvas id="top-habits-chart"></canvas>
+            </div> 
             <div id="non-negotiables-panel">
                 <h3>Hábitos No Negociables</h3>
                 <ul id="non-negotiables-list"></ul>

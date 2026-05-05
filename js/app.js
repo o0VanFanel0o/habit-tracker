@@ -10,12 +10,13 @@ import {
 }
 from "./ui.js";
 import {
-    getHabitTotals
+    getHabitTotals,
+    getTopHabits
 } from "./calculations.js";
 import {
-    updateChart,
     updateNegativeChart,
-    updatePositiveChart
+    updatePositiveChart,
+    updateTopHabitsChart
 } from "./chart.js";
 
 
@@ -30,15 +31,27 @@ const nonNegotiableForm = document.querySelector("#non-negotiables-form");
 const nonNegotiableInput = document.querySelector("#nn-input");
 const nonNegotiableList = document.querySelector("#non-negotiables-list");
 const nnInProgress = document.querySelector("#nn-in-progress");
-//const ctx = document.querySelector("#habits-chart").getContext("2d");
 const goodctx = document.querySelector("#positive-chart").getContext("2d");
 const badctx = document.querySelector("#negative-chart").getContext("2d");
+const topHabitsCtx = document.querySelector("#top-habits-chart").getContext("2d");
+const dayButtons = document.querySelectorAll(".day")
 
 const habits = [];
 const nonNegotiables = [];
-//let chart = null;
 let positiveChart = null;
 let negativeChart = null;
+let topHabitsChart = null;
+let selectedDay = "Lunes"
+
+dayButtons.forEach(button => {
+    button.addEventListener("click", () =>{
+    dayButtons.forEach(btn =>
+        btn.classList.remove("active"));
+    button.classList.add("active");
+    selectedDay = button.textContent;
+    renderSelectedDay();
+    });
+});
 
 nonNegotiableForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -88,55 +101,55 @@ form.addEventListener("submit", (e) => {
         name,
         category,
         time,
-        type
+        type,
+        day : selectedDay
     };
     habits.push(habit);
     saveHabits(habits);
-    renderHabits(list, habits);
-    updateSummary();
-    //chart = updateChart(ctx, habits, chart);
-    positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
-    negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+    renderSelectedDay();
     form.reset();
 });
 
 list.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON"){
+    const button = e.target.closest(".deleteButton");
+    if (button) {
         const id = Number(e.target.dataset.id);
         const index = habits.findIndex(habit => habit.id === id);
         if (index !== -1) {
             habits.splice(index, 1);
             saveHabits(habits);
-            renderHabits(list, habits);
-            updateSummary();
-            //chart = updateChart(ctx, habits, chart);
-            positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
-            negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+            renderSelectedDay();
         }   
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
     habits.push(...loadHabits());
     nonNegotiables.push(...loadNonNegotiables());
+    renderSelectedDay();
     renderHabits(list, habits);
     renderNonNegotiables(nonNegotiableList, nonNegotiables, nnInProgress);
-    // chart = updateChart(ctx, habits, chart);
     updateSummary();
     positiveChart = updatePositiveChart(goodctx, habits, positiveChart);
     negativeChart = updateNegativeChart(badctx, habits, negativeChart);
+    topHabitsChart = updateTopHabitsChart(topHabitsCtx, habits, topHabitsChart);
 });
 
-const updateSummary = () => {
-
+const updateSummary = (habitData = habits) => {
     const { goodTime, badTime } =
-    getHabitTotals(habits);
-
+    getHabitTotals(habitData);
     const total = goodTime + badTime;
-
     const percentage =total === 0? 0: (goodTime / total) * 100;
-
     summary.textContent =`Positivo ${Math.round(percentage)}% | ${goodTime} min vs ${badTime} min`;
-
     document.querySelector("#progress-fill").style.width =`${percentage}%`;
-
+}
+const renderSelectedDay = () => {
+    const filterHabits = habits.filter(h => h.day === selectedDay);
+    renderHabits(list,filterHabits);
+    updateSummary(filterHabits);
+    positiveChart = updatePositiveChart(
+        goodctx, filterHabits, positiveChart);
+    negativeChart = updateNegativeChart(
+        badctx, filterHabits, negativeChart);
+    topHabitsChart = updateTopHabitsChart(
+        topHabitsCtx, filterHabits, topHabitsChart);
 }
